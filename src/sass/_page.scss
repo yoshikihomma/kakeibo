@@ -1,0 +1,25 @@
+// use @include 〜
+@mixin sample {
+
+}
+.p-inputArea {
+  position: absolute;
+  top: 0;
+  padding-top: 30px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(80, 77, 77, 0.815);
+  &__inner {
+    position: relative;
+    padding: 20px;
+    width: 90%;
+    height: 90%;
+    margin: 0 auto;
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+}
+
+.p-attention {
+  color: red;
+}
