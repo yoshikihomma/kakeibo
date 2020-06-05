@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,46 +7,57 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div>
-    <div class="p-total">合計: <span class="p-total__num" data-type="合計"></span>円</div>
-    <div class="p-foods">食品: <span class="p-foods__num" data-type="食品"></span>円</div>
-    <div class="p-commodity">日用品: <span class="p-commodity__num" data-type="日用品"></span>円</div>
-    <div class="p-public">公共料金: <span class="p-public__num" data-type="公共料金"></span>円</div>
-    <button class="c-modalOpen js-modalOpen">入力</button>
-  </div>
-  <!-- <div class="p-inputArea"> -->
-  <div class="p-inputArea is-hidden">
-    <div class="p-inputArea__inner">
-      <button class="c-inputArea__close js-modalClose">x</button>
-      <ul>
-        <li>
-          <label>日時: <input type="text" class="p-itemDate"></label>
-        </li>
-        <li>
-          <label>商品名: <input type="text" class="p-itemName"></label>
-        </li>
-        <li>
+  <div id="app">
+    <div>
+      <div class="p-price p-total" data-type="total">合計: {{prices.total}}円</div>
+      <div class="p-price p-foods" data-type="foods">食品: {{prices.foods}}円</div>
+      <div class="p-price p-commodity" data-type="commodity">日用品: {{prices.commodity}}円</div>
+      <div class="p-price p-public" data-type="public">公共料金: {{prices.public}}円</div>
+      <button @click="showModal = !showModal">入力</button>
+    </div>
+    <div class="p-inputArea" v-show="!showModal">
+      <div class="p-inputArea__inner">
+        <button class="c-inputArea__close js-modalClose" @click="showModal = !showModal">x</button>
+        <p class="p-attention" v-if="showAttention">未入力の項目があります。</p>
+        <form name="itemInput" class="p-itemInput">
+          <label>日時: <input type="text" class="p-inputArea__item p-itemdate" data-item="date"></label>
+          <label>商品名: <input type="text" class="p-inputArea__item p-itemname" data-item="name"></label>
           <label>分類: 
-            <select type="text" class="p-itemType">
-              <option hidden>選択してください</option>
-              <option value="食品">食品</option>
-              <option value="日用品">日用品</option>
-              <option value="公共料金">公共料金</option>
+            <select type="text" class="p-inputArea__item p-itemtype" data-item="type">
+              <option selected hidden>選択してください</option>
+              <option value="foods">食品</option>
+              <option value="commodity">日用品</option>
+              <option value="public">公共料金</option>
             </select>
           </label>
-        </li>
-        <li>
-          <label>金額: <input type="number" class="p-itemNum"></label>
-        </li>
-      </ul>
-      <button class="c-addItem js-addItem">追加</button>
-
+          <label>金額: <input type="text" class="p-inputArea__item p-itemprice" data-item="price"></label>         
+        </form>
+        <!-- <ul>
+          <li>
+            <label>日時: <input type="text" class="p-inputArea__item p-itemDate" v-model="tempObj.date" v-bind="defaultValues.date" data-item="date"></label>
+          </li>
+          <li>
+            <label>商品名: <input type="text" class="p-inputArea__item p-itemName" v-model="tempObj.name" data-item="name"></label>
+          </li>
+          <li>
+            <label>分類: 
+              <select type="text" class="p-inputArea__item p-itemType" v-model="tempObj.type" data-item="type">
+                <option hidden>選択してください</option>
+                <option value="foods">食品</option>
+                <option value="commodity">日用品</option>
+                <option value="public">公共料金</option>
+              </select>
+            </label>
+          </li>
+          <li>
+            <label>金額: <input type="number" class="p-inputArea__item p-itemPrice" v-model="tempObj.price" data-item="price"></label>
+          </li>
+        </ul> -->
+        <button class="c-addItem js-addItem" @click="addList()">追加</button>
+      </div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-        crossorigin="anonymous">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

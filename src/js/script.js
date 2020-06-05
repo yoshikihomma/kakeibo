@@ -1,150 +1,140 @@
-'use strict';
-$(() => {
-  const $totalNum = $('.p-total__num');
-  const $foodsNum = $('.p-foods__num');
-  const $commodityNum = $('.p-commodity__num');
-  const $publicNum = $('.p-public__num');
-  const $modalOpen = $('.js-modalOpen');
-  const $modalClose = $('.js-modalClose');
-  const $inputArea = $('.p-inputArea');
-  const $inputAreaInner = $('.p-inputArea__inner');
-  const $addItem = $('.js-addItem');
-  const $itemDate = $('.p-itemDate');
-  const $itemName = $('.p-itemName');
-  const $itemType = $('.p-itemType');
-  const $itemNum = $('.p-itemNum');
-  const $attention = $('<p class="p-attention">未入力の項目があります。</p>');
-  let latestNum = () => {
-    return localStorage.getItem('latestNum');
-  };
-  let listNum = latestNum();
-  let itemLengthArray = [];
-  let tableLength = itemLengthArray.length;
-  const tempObj = {'日時': '', '商品名': '', '分類': '', '金額': 0,};
-  const numObj = {
-    '合計': 0,
-    '食品': 0,
-    '日用品': 0,
-    '公共料金': 0,
-  };
+const $PRICE = document.getElementsByClassName('p-price');
+const $INPUT_TYPE = document.getElementsByClassName('p-itemtype');
+const $INPUT_PRICE = document.getElementsByClassName('p-itemprice');
 
-  // ブラウザ更新時、DBからリストを取得
-  const table = () => {
-    for (let i = 1; i <= latestNum(); i ++) {
-      itemLengthArray.push(JSON.parse(localStorage.getItem(i)));
-    }
-  }
-  table();
-  
-  // ブラウザ更新時、各分野の合計を計算して表示する
-  const culculation = () => {
-    tableLength = itemLengthArray.length;
-    const totalCulculation = () => {
-      for(let i = 0; i <= tableLength - 1; i ++) {
-        numObj.合計 += parseInt(itemLengthArray[i].金額);
+const app = new Vue({
+  el: "#app",
+  data: {
+    prices: {
+      total: 0,
+      foods: 0,
+      commodity: 0,
+      public: 0,
+    },
+    showModal: true,
+    showAttention: false,
+    keyArray: ['date', 'name', 'type', 'price'],
+    defaultValues: {
+      'date': '', 
+      'name': '', 
+      'type': '', 
+      'price': 0,
+    },
+    tempObj: {
+      'date': '', 
+      'name': '', 
+      'type': '選択してください', 
+      'price': '0',
+    },
+    lists: [],
+    listCount: 0,
+  },
+  methods: {
+    addList () {
+      
+      const tempUpdate = () => {
+        for (let i = 0; i < app.keyArray.length; i ++) {
+          app.tempObj[app.keyArray[i]] = document.getElementsByClassName(`p-item${app.keyArray[i]}`)[0].value;
+        } 
+        console.log(app.tempObj);
       }
-      $totalNum.text(numObj.合計);
-    }
-  
-    const foodsCulculation = () => {
-      for(let i = 0; i <= tableLength - 1; i ++) {
-        if(itemLengthArray[i].分類 === '食品') {
-          numObj.食品 += parseInt(itemLengthArray[i].金額);
-        }
+      
+      const setStrage = () => {
+        app.listCount ++;
+        localStorage.setItem(app.listCount, JSON.stringify(app.tempObj));
+        localStorage.setItem('latestCount', app.listCount);
+        console.log(app.lists);
       }
-      $foodsNum.text(numObj.食品);
-    }
-  
-    const commodityCulculation = () => {
-      for(let i = 0; i <= tableLength - 1; i ++) {
-        if(itemLengthArray[i].分類 === '日用品') {
-          numObj.日用品 += parseInt(itemLengthArray[i].金額);
-        }
+      
+      const setLists = () => {
+        app.lists.push(app.tempObj);
       }
-      $commodityNum.text(numObj.日用品);
-    }
-  
-    const publicCulculation = () => {
-      for(let i = 0; i <= tableLength - 1; i ++) {
-        if(itemLengthArray[i].分類 === '公共料金') {
-          numObj.公共料金 += parseInt(itemLengthArray[i].金額);
-        }
+      
+      const typeCulculater = () => {
+        const type = app.lists[app.listCount - 1].type;
+        app.prices[type] += parseInt(app.lists[app.listCount - 1].price);
       }
-      $publicNum.text(numObj.公共料金);
-    }
-  
-    totalCulculation();
-    foodsCulculation();
-    commodityCulculation();
-    publicCulculation();
-  }
-  culculation();
+      
+      const totalCulculater = () => {
+        console.log(111);
+        app.prices['total'] += parseInt(app.lists[app.listCount - 1].price);
+      }
+      
+      const resetInput = () => {
+        document.itemInput.reset();
+      }
 
-  // 入力画面モーダルの開閉
-  const eventModal = () => {
-    $modalOpen.on('click', () => {
-      $inputArea.removeClass('is-hidden');
-    });
-    $modalClose.on('click', () => {
-      $inputArea.addClass('is-hidden');
-      resetInput();
-    });
-  }
-  eventModal();
-  
-  // 非同期でのリスト追加、更新
-  const eventAddItem = () => {
-    $addItem.on('click', () => {
-      funcAddItem();
-    });
-  }
-  eventAddItem();
+      const showAttention = () => {
+        app.showAttention = true;
+      }
 
-  // eventAddItem()での処理
-  const showAttention = () => {
-    $inputAreaInner.prepend($attention);
-  }
-  const hiddenAttention = () => {
-    $('.p-attention').remove();
-  }
-  const setTempObj = () => {
-    tempObj.日時 = $itemDate.val();
-    tempObj.商品名 = $itemName.val();
-    tempObj.分類 = $itemType.val();
-    tempObj.金額 = $itemNum.val();
-  }
-  const addListNum = () => {
-    listNum ++;
-  }
-  const addLocalStorage = () => {
-    localStorage.setItem(listNum, JSON.stringify(tempObj));
-    localStorage.setItem('latestNum', listNum);
-  }
-  const addTable = () => {
-    itemLengthArray.push(JSON.parse(localStorage.getItem(latestNum())));
-  }
-  const update = () => {
-    const addedItemType = itemLengthArray[latestNum() - 1].分類;
-    numObj[addedItemType] += parseInt(itemLengthArray[latestNum() - 1].金額);
-    $(`[data-type="${addedItemType}"]`).text(numObj[addedItemType]);
-    numObj.合計 += parseInt(itemLengthArray[latestNum() - 1].金額);
-    $totalNum.text(numObj.合計);
-  }
-  const resetInput = () => {
-    $inputArea.find('input').val('');
-    $inputArea.find('select').val('選択してください');
-  }
-  const funcAddItem = () => {
-    if ($inputArea.find('.p-itemNum').val() === '' || $inputArea.find('select').val() === '選択してください') {
-      showAttention();
-    } else {
-      hiddenAttention();
-      setTempObj();
-      addListNum();
-      addLocalStorage();
-      addTable();
-      update();
-      resetInput();
+      const hiddenAttention = () => {
+        app.showAttention = false;
+      }
+
+      if ( $INPUT_TYPE[0].value === '選択してください' || $INPUT_PRICE[0].value  === "") {
+        showAttention()
+      } else {
+        tempUpdate();
+        setStrage();
+        setLists();
+        typeCulculater();
+        totalCulculater();
+        resetInput();
+        hiddenAttention();
+      }
     }
-  }
+  },
 });
+
+const updateListCount = () => {
+  app.listCount = localStorage.getItem('latestCount');
+}
+
+const updateLists = () => {
+  for (let i = 1; i <= app.listCount; i ++) {
+    app.lists.push(JSON.parse(localStorage.getItem(i)));
+  }
+}
+
+const reCulculation = () => {
+  const listsLength = app.lists.length;
+  const totalCulculation = () => {
+    for(let i = 0; i < listsLength; i ++) {
+      app.prices.total += parseInt(app.lists[i].price);
+    }
+  }
+
+  const foodsCulculation = () => {
+    for(let i = 0; i < listsLength; i ++) {
+      if(app.lists[i].type === 'foods') {
+        app.prices.foods += parseInt(app.lists[i].price);
+      }
+    }
+  }
+
+  const commodityCulculation = () => {
+    for(let i = 0; i < listsLength; i ++) {
+      if(app.lists[i].type === 'commodity') {
+        app.prices.commodity += parseInt(app.lists[i].price);
+      }
+    }
+  }
+
+  const publicCulculation = () => {
+    for(let i = 0; i < listsLength; i ++) {
+      if(app.lists[i].type === 'public') {
+        app.prices.public += parseInt(app.lists[i].price);
+      }
+    }
+  }
+
+  totalCulculation();
+  foodsCulculation();
+  commodityCulculation();
+  publicCulculation();
+}
+
+updateListCount()
+updateLists();
+reCulculation(); 
