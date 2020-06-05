@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家計簿</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <div>
+      <div class="p-total">合計: {{totalValue}}円</div>
+      <div class="p-foods">食品: {{totalValue}}円</div>
+      <div class="p-commodity">日用品: {{totalValue}}円</div>
+      <div class="p-public">公共料金: {{totalValue}}円</div>
+      <button class="c-modalOpen js-modalOpen">入力</button>
+    </div>
+    <div class="p-inputArea is-hidden">
+      <div class="p-inputArea__inner">
+        <button class="c-inputArea__close js-modalClose">x</button>
+        <ul>
+          <li>
+            <label>日時: <input type="text" class="p-itemDate"></label>
+          </li>
+          <li>
+            <label>商品名: <input type="text" class="p-itemName"></label>
+          </li>
+          <li>
+            <label>分類: 
+              <select type="text" class="p-itemType">
+                <option hidden>選択してください</option>
+                <option value="食品">食品</option>
+                <option value="日用品">日用品</option>
+                <option value="公共料金">公共料金</option>
+              </select>
+            </label>
+          </li>
+          <li>
+            <label>金額: <input type="number" class="p-itemNum"></label>
+          </li>
+        </ul>
+        <button class="c-addItem js-addItem">追加</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
