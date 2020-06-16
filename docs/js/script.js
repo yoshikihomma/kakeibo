@@ -1,8 +1,10 @@
-"use strict";
+'use strict';
 
 var $PRICE = document.getElementsByClassName('p-price');
 var $INPUT_TYPE = document.getElementsByClassName('p-itemtype');
 var $INPUT_PRICE = document.getElementsByClassName('p-itemprice');
+var LIST_REF = firebase.firestore().collection("users").doc('list');
+var listNum = 0;
 var app = new Vue({
   el: "#app",
   data: {
@@ -15,20 +17,13 @@ var app = new Vue({
     showModal: true,
     showAttention: false,
     keyArray: ['date', 'name', 'type', 'price'],
-    defaultValues: {
-      'date': '',
-      'name': '',
-      'type': '',
-      'price': 0
-    },
     tempObj: {
       'date': '',
       'name': '',
       'type': '選択してください',
-      'price': '0'
-    },
-    lists: [],
-    listCount: 0
+      'price': '0',
+      'listNum': ''
+    }
   },
   methods: {
     addList: function addList() {
@@ -36,29 +31,18 @@ var app = new Vue({
         for (var i = 0; i < app.keyArray.length; i++) {
           app.tempObj[app.keyArray[i]] = document.getElementsByClassName("p-item".concat(app.keyArray[i]))[0].value;
         }
-
-        console.log(app.tempObj);
       };
 
-      var setStrage = function setStrage() {
-        app.listCount++;
-        localStorage.setItem(app.listCount, JSON.stringify(app.tempObj));
-        localStorage.setItem('latestCount', app.listCount);
-        console.log(app.lists);
-      };
-
-      var setLists = function setLists() {
-        app.lists.push(app.tempObj);
-      };
-
-      var typeCulculater = function typeCulculater() {
-        var type = app.lists[app.listCount - 1].type;
-        app.prices[type] += parseInt(app.lists[app.listCount - 1].price);
-      };
-
-      var totalCulculater = function totalCulculater() {
-        console.log(111);
-        app.prices['total'] += parseInt(app.lists[app.listCount - 1].price);
+      var addDB = function addDB() {
+        listNum++;
+        app.tempObj.listNum = listNum;
+        LIST_REF.update({
+          listArray: firebase.firestore.FieldValue.arrayUnion(app.tempObj)
+        }).then(function () {
+          console.log("Document successfully written!");
+        })["catch"](function (error) {
+          console.error("Error writing document: ", error);
+        });
       };
 
       var resetInput = function resetInput() {
@@ -77,66 +61,55 @@ var app = new Vue({
         showAttention();
       } else {
         tempUpdate();
-        setStrage();
-        setLists();
-        typeCulculater();
-        totalCulculater();
+        addDB();
         resetInput();
         hiddenAttention();
       }
     }
   }
 });
+LIST_REF.onSnapshot(function (doc) {
+  var list = doc.data().listArray;
+  var foodsSum = 0;
+  var commoditySum = 0;
+  var publicSum = 0;
+  listNum = list.length;
 
-var updateListCount = function updateListCount() {
-  app.listCount = localStorage.getItem('latestCount');
-};
+  var foodsCulculater = function foodsCulculater() {
+    for (var i = 0; i < listNum; i++) {
+      if (list[i].type === 'foods') {
+        foodsSum += parseInt(list[i].price);
+        app.prices.foods = foodsSum;
+      }
+    }
+  };
 
-var updateLists = function updateLists() {
-  for (var i = 1; i <= app.listCount; i++) {
-    app.lists.push(JSON.parse(localStorage.getItem(i)));
-  }
-};
+  var commodityCulculater = function commodityCulculater() {
+    for (var i = 0; i < listNum; i++) {
+      if (list[i].type === 'commodity') {
+        commoditySum += parseInt(list[i].price);
+        app.prices.commodity = commoditySum;
+      }
+    }
+  };
 
-var reCulculation = function reCulculation() {
-  var listsLength = app.lists.length;
+  var publicCulculater = function publicCulculater() {
+    for (var i = 0; i < listNum; i++) {
+      if (list[i].type === 'public') {
+        publicSum += parseInt(list[i].price);
+        app.prices["public"] = publicSum;
+      }
+    }
+  };
 
   var totalCulculation = function totalCulculation() {
-    for (var i = 0; i < listsLength; i++) {
-      app.prices.total += parseInt(app.lists[i].price);
+    for (var i = 0; i < listNum; i++) {
+      app.prices.total = foodsSum + commoditySum + publicSum;
     }
   };
 
-  var foodsCulculation = function foodsCulculation() {
-    for (var i = 0; i < listsLength; i++) {
-      if (app.lists[i].type === 'foods') {
-        app.prices.foods += parseInt(app.lists[i].price);
-      }
-    }
-  };
-
-  var commodityCulculation = function commodityCulculation() {
-    for (var i = 0; i < listsLength; i++) {
-      if (app.lists[i].type === 'commodity') {
-        app.prices.commodity += parseInt(app.lists[i].price);
-      }
-    }
-  };
-
-  var publicCulculation = function publicCulculation() {
-    for (var i = 0; i < listsLength; i++) {
-      if (app.lists[i].type === 'public') {
-        app.prices["public"] += parseInt(app.lists[i].price);
-      }
-    }
-  };
-
+  foodsCulculater();
+  commodityCulculater();
+  publicCulculater();
   totalCulculation();
-  foodsCulculation();
-  commodityCulculation();
-  publicCulculation();
-};
-
-updateListCount();
-updateLists();
-reCulculation();
+});
