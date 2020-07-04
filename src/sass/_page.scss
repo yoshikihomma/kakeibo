@@ -3,9 +3,74 @@
 
 }
 
+.p-deffer {
+  padding: 20px 0;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 30px;
+  &__text {
+    margin-top: 10px;
+  }
+}
+
+.p-prices {
+  display: flex;
+  margin-top: 86px;
+  font-size: 14px;
+  &__person {
+    position: relative;
+    padding: 50px 5px 30px;
+    min-width: 145px;
+    margin-left: 10px;
+    box-sizing: border-box;
+    background-color: #F5EED1;
+    &:first-child {
+      margin-left: 0;
+    }
+    .p-pricesPerson__title {
+      position: absolute;
+      top: -38px;
+      left: 35px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 76px;
+      height: 76px;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+    .p-pricesPerson__types {
+      padding-bottom: 15px;
+      border-bottom: 1px solid $black;
+    }
+    .p-price__type {
+      margin-top: 10px;
+      padding-left: 5px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+    .p-price {
+      padding: 5px 0;
+      background-color: #fff;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .p-foods, .p-commodity, .p-public {
+      margin-top: 5px;
+    }
+    .p-total {
+      margin-top: 15px;
+    }
+  }
+}
+
+
 .p-inputArea {
   position: absolute;
   top: 0;
+  right: 0;
   padding-top: 30px;
   width: 100%;
   height: 100%;
