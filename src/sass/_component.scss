@@ -1,7 +1,33 @@
-.c-inputArea__close {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    text-align: center;
-    border-radius: 50%;
+.c-contents {
+  padding: 50px 10px 67px;
+  background-color: #A1DE3F;
+}
+
+.c-addButton {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  &::before {
+    content: "";
+    display: block;
+    border-top: solid 1px $black;
   }
+  &::after {
+    content: "";
+    display: block;
+    border-top: solid 1px $black;
+    transform: rotate(90deg);
+  }
+}
+
+.c-inputArea__close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  text-align: center;
+  border-radius: 50%;
+}

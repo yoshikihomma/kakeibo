@@ -86,6 +86,7 @@ input, select {
   vertical-align: middle; }
 
 body {
+  color: #707070;
   font-family: 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif; }
 
 img {
@@ -102,6 +103,35 @@ a {
   display: block;
   clear: both; }
 
+.l-header {
+  padding: 12px 0;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: solid 1px #707070; }
+
+.c-contents {
+  padding: 50px 10px 67px;
+  background-color: #A1DE3F; }
+
+.c-addButton {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%; }
+  .c-addButton::before {
+    content: "";
+    display: block;
+    border-top: solid 1px #707070; }
+  .c-addButton::after {
+    content: "";
+    display: block;
+    border-top: solid 1px #707070;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg); }
+
 .c-inputArea__close {
   position: absolute;
   top: -8px;
@@ -109,9 +139,70 @@ a {
   text-align: center;
   border-radius: 50%; }
 
+.p-deffer {
+  padding: 20px 0;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 30px; }
+  .p-deffer__text {
+    margin-top: 10px; }
+
+.p-prices {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 86px;
+  font-size: 14px; }
+  .p-prices__person {
+    position: relative;
+    padding: 50px 5px 30px;
+    min-width: 145px;
+    margin-left: 10px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #F5EED1; }
+    .p-prices__person:first-child {
+      margin-left: 0; }
+    .p-prices__person .p-pricesPerson__title {
+      position: absolute;
+      top: -38px;
+      left: 35px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 76px;
+      height: 76px;
+      background-color: #fff;
+      border-radius: 50%; }
+    .p-prices__person .p-pricesPerson__types {
+      padding-bottom: 15px;
+      border-bottom: 1px solid #707070; }
+    .p-prices__person .p-price__type {
+      margin-top: 10px;
+      padding-left: 5px; }
+      .p-prices__person .p-price__type:first-child {
+        margin-top: 0; }
+    .p-prices__person .p-price {
+      padding: 5px 0;
+      background-color: #fff;
+      border-radius: 10px;
+      text-align: center; }
+    .p-prices__person .p-foods, .p-prices__person .p-commodity, .p-prices__person .p-public {
+      margin-top: 5px; }
+    .p-prices__person .p-total {
+      margin-top: 15px; }
+
 .p-inputArea {
   position: absolute;
   top: 0;
+  right: 0;
   padding-top: 30px;
   width: 100%;
   height: 100%;
