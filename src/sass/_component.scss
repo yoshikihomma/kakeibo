@@ -1,9 +1,17 @@
 .c-contents {
-  padding: 50px 10px 67px;
-  background-color: #A1DE3F;
+  @media (max-width: $sp) {
+    padding: 50px 10px 67px;
+  }
+  padding: 30px 30px 67px;
 }
 
 .c-addButton {
+  @media (min-width: $tab) {
+    right: 50px;
+    bottom: 30px;
+    width: 60px;
+    height: 60px;
+  }
   position: fixed;
   right: 10px;
   bottom: 10px;

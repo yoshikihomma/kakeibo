@@ -14,11 +14,21 @@
 }
 
 .p-prices {
+  @media (min-width: $tab) {
+    justify-content: space-around;
+    margin-top: 70px;
+  }
   display: flex;
   margin-top: 86px;
   font-size: 14px;
   &__person {
+    @media (min-width: $tab) {
+      padding: 50px 20px 50px;
+      flex-grow: 0.3;
+      margin-left: 0;
+    }
     position: relative;
+    flex-grow: 1;
     padding: 50px 5px 30px;
     min-width: 145px;
     margin-left: 10px;
@@ -30,7 +40,7 @@
     .p-pricesPerson__title {
       position: absolute;
       top: -38px;
-      left: 35px;
+      left: calc(50% - 38px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -41,10 +51,17 @@
       border-radius: 50%;
     }
     .p-pricesPerson__types {
+      @media (min-width: $tab) {
+        padding-bottom: 25px;
+      }
       padding-bottom: 15px;
       border-bottom: 1px solid $black;
     }
     .p-price__type {
+      @media (min-width: $tab) {
+        margin-top: 20px;
+        // font-size: 20px;
+      }
       margin-top: 10px;
       padding-left: 5px;
       &:first-child {
@@ -52,15 +69,25 @@
       }
     }
     .p-price {
+      @media (min-width: $tab) {
+        padding: 10px 0;
+        border-radius: 20px;
+      }
       padding: 5px 0;
       background-color: #fff;
       border-radius: 10px;
       text-align: center;
     }
     .p-foods, .p-commodity, .p-public {
+      @media (min-width: $tab) {
+        margin-top: 10px;
+      }
       margin-top: 5px;
     }
     .p-total {
+      @media (min-width: $tab) {
+        margin-top: 20px;
+      }
       margin-top: 15px;
     }
   }
