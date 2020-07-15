@@ -87,7 +87,8 @@ input, select {
 
 body {
   color: #707070;
-  font-family: 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif; }
+  font-family: 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+  background-color: #A1DE3F; }
 
 img {
   display: block; }
@@ -104,14 +105,17 @@ a {
   clear: both; }
 
 .l-header {
-  padding: 12px 0;
-  font-size: 14px;
+  padding: 24px 0;
+  font-size: 18px;
   text-align: center;
+  background-color: #fff;
   border-bottom: solid 1px #707070; }
 
 .c-contents {
-  padding: 50px 10px 67px;
-  background-color: #A1DE3F; }
+  padding: 30px 30px 67px; }
+  @media (max-width: 480px) {
+    .c-contents {
+      padding: 50px 10px 67px; } }
 
 .c-addButton {
   position: fixed;
@@ -121,6 +125,12 @@ a {
   height: 40px;
   background-color: #fff;
   border-radius: 50%; }
+  @media (min-width: 680px) {
+    .c-addButton {
+      right: 50px;
+      bottom: 30px;
+      width: 60px;
+      height: 60px; } }
   .c-addButton::before {
     content: "";
     display: block;
@@ -153,20 +163,35 @@ a {
   display: flex;
   margin-top: 86px;
   font-size: 14px; }
+  @media (min-width: 680px) {
+    .p-prices {
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
+      margin-top: 70px; } }
   .p-prices__person {
     position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
     padding: 50px 5px 30px;
     min-width: 145px;
     margin-left: 10px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     background-color: #F5EED1; }
+    @media (min-width: 680px) {
+      .p-prices__person {
+        padding: 50px 20px 50px;
+        -webkit-box-flex: 0.3;
+        -ms-flex-positive: 0.3;
+        flex-grow: 0.3;
+        margin-left: 0; } }
     .p-prices__person:first-child {
       margin-left: 0; }
     .p-prices__person .p-pricesPerson__title {
       position: absolute;
       top: -38px;
-      left: 35px;
+      left: calc(50% - 38px);
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -184,9 +209,15 @@ a {
     .p-prices__person .p-pricesPerson__types {
       padding-bottom: 15px;
       border-bottom: 1px solid #707070; }
+      @media (min-width: 680px) {
+        .p-prices__person .p-pricesPerson__types {
+          padding-bottom: 25px; } }
     .p-prices__person .p-price__type {
       margin-top: 10px;
       padding-left: 5px; }
+      @media (min-width: 680px) {
+        .p-prices__person .p-price__type {
+          margin-top: 20px; } }
       .p-prices__person .p-price__type:first-child {
         margin-top: 0; }
     .p-prices__person .p-price {
@@ -194,10 +225,20 @@ a {
       background-color: #fff;
       border-radius: 10px;
       text-align: center; }
+      @media (min-width: 680px) {
+        .p-prices__person .p-price {
+          padding: 10px 0;
+          border-radius: 20px; } }
     .p-prices__person .p-foods, .p-prices__person .p-commodity, .p-prices__person .p-public {
       margin-top: 5px; }
+      @media (min-width: 680px) {
+        .p-prices__person .p-foods, .p-prices__person .p-commodity, .p-prices__person .p-public {
+          margin-top: 10px; } }
     .p-prices__person .p-total {
       margin-top: 15px; }
+      @media (min-width: 680px) {
+        .p-prices__person .p-total {
+          margin-top: 20px; } }
 
 .p-inputArea {
   position: absolute;
