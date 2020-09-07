@@ -16,7 +16,7 @@ gulp.task('sass', () => {
         "overrideBrowserslist": ["last 2 versions", "ie >= 11", "Android >= 4"],
         cascade: false}
     ) ]) )
-    .pipe(gulp.dest('./docs/css'))
+    .pipe(gulp.dest('./public/top/css'))
 })
 
 gulp.task('babel', () => {
@@ -24,14 +24,14 @@ gulp.task('babel', () => {
       .pipe(babel({
           presets: ['@babel/preset-env']
       }))
-      .pipe(gulp.dest('./docs/js'));
+      .pipe(gulp.dest('./public/top/js'));
 });
 
 gulp.task('serve', done => {
   browserSync.init({
     server: {
-      baseDir: './docs',
-      index: 'index.html',
+      baseDir: './public/main',
+      index: 'top.html',
     },
   })
   done()
@@ -47,7 +47,7 @@ gulp.task('watch', () => {
   gulp.watch('./src/sass/*.scss', gulp.task('browserReload'));
   gulp.watch('./src/js/*.js', gulp.series('babel'));
   gulp.watch('./src/js/*.js', gulp.task('browserReload'));
-  gulp.watch('./docs/*.html', gulp.task('browserReload'));
+  gulp.watch('./public/top/*.html', gulp.task('browserReload'));
 })
 
 gulp.task('default', gulp.series(gulp.parallel('serve', 'watch')))

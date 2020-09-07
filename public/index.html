@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+  <script defer src="/__/firebase/init.js"></script>
+  <title>ログイン</title>
+</head>
+<body>
+  <p>家計簿アプリ</p>
+  <div id="firebaseui-auth-container"></div>
+  <div id="loader">Loading...</div>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+  <!-- <script defer src="/__/firebase/7.15.0/firebase-auth.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAshrVPJHM9sw76THKA4fQULOsi6CT28Z4",
+      authDomain: "kakeibo-931d1.firebaseapp.com",
+      databaseURL: "https://kakeibo-931d1.firebaseio.com",
+      projectId: "kakeibo-931d1",
+      storageBucket: "kakeibo-931d1.appspot.com",
+      messagingSenderId: "746812874137",
+      appId: "1:746812874137:web:d72af8a644ae64ac5d4708"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script type="text/javascript">
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    var uiConfig = {
+      callbacks: {
+        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+          return true;
+        },
+        uiShown: function() {
+          document.getElementById('loader').style.display = 'none';
+        }
+      },
+      signInFlow: 'popup',
+      signInSuccessUrl: './top/top.html',
+      signInOptions: [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      ],
+    };
+    ui.start('#firebaseui-auth-container', uiConfig);
+  </script>
+  <script type="text/javascript">
+    var createAccountButton = document.getElementById('createAccountButton');
+    createAccountButton.addEventListener('click', function() {
+      var email = document.getElementById('newEmail').value;
+      var password = document.getElementById('newPassword').value;
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        console.log('failed');
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+      });
+      document.newAccount.reset();
+    });
+    const user = firebase.auth().currentUser;
+    console.log(user);
+
+  </script>
+</body>
+</html>
