@@ -2,6 +2,13 @@
 	display: none;
 }
 
+.is-selected {
+	background-color: #707070;
+	color: #fff;
+	border: none !important;
+	opacity: 0.5;
+}
+
 .clearfix::after {
 	content: "";
 	display: block;
